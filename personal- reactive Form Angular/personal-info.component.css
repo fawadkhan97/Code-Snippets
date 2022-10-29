@@ -1,0 +1,39 @@
+.invalid-tooltip {
+  right: 12px;
+  z-index: 5;
+  display: block;
+}
+label>abbr {
+  color: #ff0000;
+}
+
+.required{
+  color: #ff0000;
+}
+
+.input-button-div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-button{
+  margin-left: -48px;
+    z-index: 1;
+    margin-right: 7px;
+}
+
+#SSN{
+  background-image: none !important;
+}
+
+.disabled{border-bottom: 1px solid #b7b7b7 ;}
+
+::ng-deep .disabled div.mat-form-field-wrapper{
+  padding-bottom:0!important;
+}
+
+
+/*label>span:first-child:not(.checkbox)::after { content: ":"; }*/
+
+

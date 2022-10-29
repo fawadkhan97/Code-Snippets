@@ -1,0 +1,382 @@
+<main class="app-main">
+
+
+
+  <div class="wrapper">
+    <div class="page">
+      <div class="sidebar-backdrop"></div>
+
+      <div class="p-2 p-sm-2">
+
+        <div class="mt-4">
+          <div class="section-deck">
+
+            <div class="card card-fluid" style="
+                border: none;
+                box-shadow: none;
+            ">
+              <div class="card-body" style="
+    padding-right: 5px;
+    padding-left: 5px;
+">
+
+                <header class="page-title-bar">
+                  <h2 class="page-title" style="font-size: 18px;
+              font-weight: bold;
+              color: #6973d2;"> Parent/Borrower/Cosigner Registration </h2>
+                  <div>
+                    <p>Dear Parent/Borrower/Cosigner, Please register yourself in
+                      order for us to provide you accurate student information. Please
+                      note that we will submit your info to Experian to verify your
+                      identity so that you may electronically sign the documents. Such
+                      types of inquiries are NOT logged on your credit report.</p>
+                  </div>
+                </header>
+
+                <div class="page-section">
+                  <div class="section-block">
+                    <div class="d-md-none d-none">
+                      <button class="btn btn-info btn-floated" type="button" data-toggle="sidebar">
+                        <i class="fa fa-th-list"></i>
+                      </button>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                      <div class="card card-fluid">
+                        <h6 class="card-header" style="background-color: #346CB0; color: white;">
+                          Parent/Borrower/Cosigner Information </h6>
+                        <div class="card-body">
+                          <form [formGroup]="personalInfoForm" (ngSubmit)="onSubmit()">
+                            <div class="form-row">
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>First Name: </mat-label>
+                                    <input matInput type="text" name="firstName" formControlName="firstName" required />
+
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.firstName.errors?.required">
+                                      <span style="font-size: small;"> First Name is required</span></mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.firstName.hasError('whitespace') &&
+                                      !personalInfoForm.controls.firstName.errors?.required">
+                                      <span style="font-size: small;"> First Name cannot be blank</span></mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Last Name: </mat-label>
+                                    <input matInput type="text" name="lastName" formControlName="lastName" required />
+
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.lastName.errors?.required">
+                                      <span style="font-size: small;"> Last Name is required</span></mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.lastName.hasError('whitespace') &&
+                                      !personalInfoForm.controls.lastName.errors?.required">
+                                      <span style="font-size: small;"> Last Name cannot be blank</span></mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+
+
+
+
+
+                            <div class="form-row">
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Phone: </mat-label>
+                                    <input matInput type="text" name="phoneNumber" mask='(000) 000-0000'
+                                      formControlName="phoneNumber" required />
+
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.phoneNumber.errors?.required">
+                                      <span style="font-size: small;"> Phone is required</span></mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.phoneNumber.errors?.pattern">
+                                      <span style="font-size: small;"> Phone number pattern is incorrect </span>
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>SSN:</mat-label>
+                                    <input matInput type="text" formControlName="ssn" maxlength="11" inputmode="numeric"
+                                      (input)="formatSSN(ssnNo.value)"
+                                      autocomplete="off" name="SSN" #ssnNo (focusout)="ssnFocusOut(ssnNo.value)"
+                                      (click)="showSnn()" required />
+                                    <mat-icon style="cursor: pointer;" matSuffix (click)="toggleSSN()">{{showSSn ? 'visibility_off' : '
+                  visibility'}}</mat-icon>
+<mat-error *ngIf=" submitted && personalInfoForm.controls.ssn.errors?.required">
+  <span
+                                        style="font-size: small;">
+                                        SSN is required</span></mat-error>
+                                    <mat-error *ngIf=" submitted && personalInfoForm.controls.ssn.errors?.minlength">
+                                      <span
+                                        style="font-size: small;">
+                                        SSN Number should be 9 characters long</span></mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="form-row align-items-end">
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" appearance="fill" style="width: 100%;">
+                                    <mat-label>Date of birth:</mat-label>
+                                <input matInput type="text" formControlName="dob" autocomplete="off" appDatepicker
+                                  (dateEventEmitter)="setDobDate($event)" />
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-error *ngIf=" submitted && personalInfoForm.controls.dob.errors?.required">
+                                      <span
+                                        style="font-size: small;">
+                                        Date of birth is required</span></mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field style="width: 100%;" appearance="fill">
+                                    <mat-label>Email: </mat-label>
+                                    <input matInput type="text" name="email" formControlName="emailAddress" required />
+
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.emailAddress.errors?.required">
+                                      <span style="font-size: small;"> Email is required</span></mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted &&
+                                      personalInfoForm.controls.emailAddress.hasError('whitespace')&&
+                                      !personalInfoForm.controls.emailAddress.errors?.required ">
+                                      <span style="font-size: small;"> email cannot be blank</span>
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="form-row">
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill"
+                                    [ngClass]="this.disbledPasswordInput && this.isUpdateDataRequest ? 'disabled' : ''"
+                                    style="width: 100%;">
+                                    <mat-label>Password: </mat-label>
+                                    <input matInput [type]="hidePass?'password':'text'" name="******"
+                                      formControlName="password" required autocomplete="off"
+                                      (focusout)="hidePass = true" />
+                                    <mat-icon style="cursor: pointer;" matSuffix (click)="hidePass = !hidePass">
+                                      {{hidePass ? 'visibility' : '
+                                                  visibility_off'}}</mat-icon>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.password.errors?.required">
+                                      <span style="font-size: small;"> Password is required</span></mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.password.errors?.minlength"><span
+                                        style="font-size: small;">
+                                        Password should be at least 6 characters long</span></mat-error>
+                                    </mat-form-field>
+                                </div>
+                              </div>
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill"
+                                    [ngClass]="this.disbledPasswordInput && this.isUpdateDataRequest ? 'disabled' : ''"
+                                    style="width: 100%;">
+                                    <mat-label>Confirm Password: </mat-label>
+                                    <input matInput [type]="hideConfirmPass?'password':'text'" name="******"
+                                      formControlName="confirmPassword" required autocomplete="off"
+                                      (focusout)="hideConfirmPass = true" />
+                                    <mat-icon style="cursor: pointer;" matSuffix
+                                      (click)="hideConfirmPass = !hideConfirmPass">
+                                      {{hideConfirmPass ? 'visibility' : '
+                                      visibility_off'}}</mat-icon>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.confirmPassword.errors?.required">
+                                      <span style="font-size: small;"> Confirm password is required</span>
+                                      </mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted &&
+                                      personalInfoForm.controls.confirmPassword.errors?.confirmPasswordValidator">
+                                      <span style="font-size: small;"> Passsword and Confirm Password didn't
+                                        match.</span>
+                                    </mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.confirmPassword.errors?.minlength">
+                                      <span style="font-size: small;"> Confirm password should be at least 6 characters
+                                        long</span></mat-error>
+                                    </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="form-row">
+
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Street Address: </mat-label>
+                                    <input matInput type="text" name="address1" formControlName="address1" required />
+
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.address1.errors?.required">
+                                      <span style="font-size: small;"> Street Address is required</span></mat-error>
+                                    <mat-error
+                                      *ngIf="submitted && personalInfoForm.controls.address1.hasError('whitespace') &&
+                                      !personalInfoForm.controls.address1.errors?.required">
+                                      <span style="font-size: small;"> address cannot be blank</span>
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Address Line 2: </mat-label>
+                                    <input matInput type="text" name="address2" formControlName="address2" />
+
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="form-row">
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>City: </mat-label>
+                                    <input matInput type="text" name="city" formControlName="city" required />
+
+                                    <mat-error *ngIf=" submitted && personalInfoForm.controls.city.errors?.required">
+                                      <span style="font-size: small;"> City is required</span></mat-error>
+                                    <mat-error
+                                      *ngIf=" submitted && personalInfoForm.controls.city.hasError('whitespace') &&
+                                      !personalInfoForm.controls.city.errors?.required">
+                                      <span style="font-size: small;"> city cannot be blank</span>
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+                              <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>State: </mat-label>
+                                    <mat-select name="state" formControlName="state" required>
+                                      <mat-option value=0 disabled> Choose
+                                        State</mat-option>
+
+                                      <mat-option *ngFor="let state of utilService.stateList" [value]='state.stateId'
+                                        selected>
+                                        {{state.stateName}}
+                                      </mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="submitted &&  personalInfoForm.controls.state.errors?.required">
+                                        Please
+                                        Choose State
+                                      </mat-error>
+                                      </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="form-row">
+                              <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Zip Code: </mat-label>
+                                    <input matInput type="text" name="zip" mask="00000||00000-0000"
+                                      formControlName="zip" required />
+
+                                    <mat-error *ngIf=" submitted && personalInfoForm.controls.zip.errors?.required">
+                                      <span style="font-size: small;"> Zip is required</span></mat-error>
+                                    <mat-error *ngIf=" submitted && personalInfoForm.controls.zip.errors?.pattern">
+                                      <span style="font-size: small;"> Valid zip is required</span>
+                                    </mat-error>
+                                  </mat-form-field>
+
+                                </div>
+                              </div>
+
+
+
+
+                              <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                  <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Country: </mat-label>
+                                    <mat-select name="country" formControlName="country" required>
+                                      <mat-option value=0 disabled> Choose Country</mat-option>
+                                      <mat-option selected *ngFor="let country of  utilService.countries"
+                                        [value]="country.countryId">
+                                        {{country.countryName}}
+                                      </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="submitted && (personalInfoForm.controls.country.errors ||
+                                    personalInfoForm.controls.country.value==0)">
+                                      Please
+                                      Choose Country.
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+                            <div class=" text-center" *ngIf="isUpdateDataRequest">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                            <div class=" text-center" *ngIf="!isUpdateDataRequest">
+                              <button type="submit" class="btn btn-primary">Register</button>
+
+                              <div class="text-center mt-3">
+                                <a [routerLink]="['/']"> Already have an account? Login </a>
+                              </div>
+                              </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</main>
