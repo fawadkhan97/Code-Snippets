@@ -3,11 +3,9 @@ export function maskSSN(value: any): any {
 }
 
 function preMask(value: string): any {
-  console.log('premask ' + value);
   let temp = value;
   if (value != null && value != undefined) {
     temp = temp.replace(/\*/g, '');
-    console.log('premask temp ' + temp);
     return maskData(value);
   }
 
@@ -21,22 +19,21 @@ function maskData(event: any): any {
   let maskedSectionOriginal: string = '';
   let orignalSSN: string;
 
-  console.log('mask ', event);
   if (event.length > 4) {
     let visibleDigitstemp = 4 - event.length;
     let maskedSectiontemp = event.slice(0, -visibleDigitstemp);
-    console.log('maskedsection ' + maskedSectiontemp);
+    // console.log('maskedsection ' + maskedSectiontemp);
     if (maskedSectiontemp)
       maskedSectiontemp = maskedSectiontemp.replace(/\*/g, '');
     // console.log('replace maskedsection ' + maskedSectiontemp);
 
     if (maskedSectiontemp.length > 0) {
-      console.log(
+      /*  console.log(
         'maskedSectiontemp > 0   maskedSectionOriginal ' +
           maskedSectionOriginal +
           ' json str ' +
           JSON.parse(JSON.stringify(maskedSectiontemp))
-      );
+      ); */
       maskedSectionOriginal =
         maskedSectionOriginal + JSON.parse(JSON.stringify(maskedSectiontemp));
     }
@@ -50,7 +47,7 @@ function maskData(event: any): any {
   orignalSSN = maskedSectionOriginal + visibleSection;
   // console.log(this.maskedSectionOriginal + " visiable ddddddddddddddd " +visibleSection);
 
-  console.log('maskedSSN ' + maskedSSN);
+  //console.log('maskedSSN ' + maskedSSN);
   let ssnObject = {
     orignalSSN: orignalSSN,
     maskedSSN: maskedSSN,
